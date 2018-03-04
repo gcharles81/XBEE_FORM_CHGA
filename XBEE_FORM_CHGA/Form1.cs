@@ -19,6 +19,14 @@ namespace XBEE_FORM_CHGA
 
         internal List<Byte> portBuffer = new List<Byte>();
 
+        const byte cmd_StartDelimiter = 0x7E;
+        const byte cmd_Zero = 0x00;
+        const byte cmd_4Length = 0x04;
+        const byte cmd_8Length = 0x08;
+        const byte cmd_ATAPIIdentifier = 0x08;
+        const byte cmd_FrameId = 0x52;
+
+
         public Form1()
         {
              // Various colors for logging info
@@ -36,7 +44,7 @@ namespace XBEE_FORM_CHGA
 
           //  byte[] buffer = { 0x7e, 0x00, 0x07, 0x01, 0x01, 0x00, 0x02, 0x00, 0x66, 0x65, 0x30};
             // Convert the user's string of hex digits (ex: B4 CA E2) to a byte array
-            byte[] data = HexStringToByteArray(txtSendData.Text);
+            byte[] data = HexStringToByteArray(label32.Text);
 
             // Send the binary data out the port
             serialPort1.Write(data, 0, data.Length);
@@ -184,9 +192,57 @@ namespace XBEE_FORM_CHGA
                 Array.Reverse(intBytes);
             byte[] result = intBytes;
 
-           // byte[]calculated_lenght_by_charles = Encoding.Default.GetBytes(hh);
+            merged[2] = result[3];
+            // byte[]calculated_lenght_by_charles = Encoding.Default.GetBytes(hh);
 
-            var HEX_array1 = BitConverter.ToString(merged);
+            //lets calc checksum
+
+            int decimalSum = 0;                         // Checksum calculus concept : http://knowledge.digi.com/articles/Knowledge_Base_Article/Calculating-the-Checksum-of-an-API-Packet
+            for (int i = 3; i <  merged.Length; i++)
+            {
+                int theElementInInt = Convert.ToInt32(merged[i]);                              //We convert each element of the array to int (because it's impossible to make operation that have higher result than 0xFF ( 255 in decimal) in C#. 
+              //  Console.WriteLine(xbeeFrame[i].ToString("X") + "=" + theElementInInt);            // So , the easiest way is to make calculus in decimal domain and switch to hexa when needed
+
+                decimalSum += theElementInInt;                                                    //xbeeFrame is the array where are stored the bytes' frame
+            }
+
+            rtfTerminal.AppendText (Environment.NewLine + "The sum is :" + decimalSum);
+            rtfTerminal.AppendText(Environment.NewLine + "sadfsafsf :" + decimalSum);
+            string decimalSumHexByte = decimalSum.ToString("X");
+            rtfTerminal.AppendText(Environment.NewLine + "The hex value of this sum is :" + decimalSumHexByte + " . I'll only take the two last bytes");  // cf calculus concept for why only the two last bytes
+            char[] decimalSumHexByteExploded = decimalSumHexByte.ToCharArray();
+            string last2Bytes = decimalSumHexByteExploded[decimalSumHexByteExploded.Length - 2] + "" + decimalSumHexByteExploded[decimalSumHexByteExploded.Length - 1];
+            rtfTerminal.AppendText(Environment.NewLine + "The two last bytes are:" + last2Bytes);
+            int last2BytesDeciValue = Convert.ToInt32(last2Bytes, 16);
+            rtfTerminal.AppendText(Environment.NewLine + "Its decimal value is:" + last2BytesDeciValue);
+
+            int finalIntValue = 255 - last2BytesDeciValue;
+            string finalHexValue = finalIntValue.ToString("X");
+            if (finalHexValue.Length == 1)
+            {
+
+                finalHexValue.Insert(0, "0");
+
+            }
+
+            rtfTerminal.AppendText(Environment.NewLine + "The checksum is :" + finalHexValue);
+            finalHexValue.Insert(0, "0x");
+            byte finalChecksumByte = Convert.ToByte(finalHexValue, 16);
+            richTextBox1.Text = finalHexValue.ToString();
+
+            byte[] GHD = { 0x00};
+            GHD[0] = finalChecksumByte;
+            var merged2 = new byte[merged.Length + 1];
+
+            merged.CopyTo(merged2, 0);
+
+            GHD.CopyTo(merged2, merged.Length);
+
+
+
+
+            //////////////////////////////////////////////////////////////////
+            var HEX_array1 = BitConverter.ToString(merged2);
             var calculated_lenght_by_charles = BitConverter.ToString(result);
             calculated_lenght_by_charles = calculated_lenght_by_charles.Replace("-", " ");
 
@@ -198,6 +254,28 @@ namespace XBEE_FORM_CHGA
 
             label26.Text = hh.ToString();
 
+
+        }
+
+        public byte CalcCheckSum(byte[] res)
+        {
+            int cs = (byte)0xFF - (res[3] + res[4] + res[5] + res[6]);
+
+            byte[] css = BitConverter.GetBytes(cs);
+
+            return css[0];
+
+        }
+
+        public byte[] ConvertTextToHex(string str)
+        {
+            byte[] Hex;
+
+            System.Text.UTF8Encoding strC = new System.Text.UTF8Encoding();
+
+            Hex = strC.GetBytes(str);
+
+            return Hex;
 
         }
     }
