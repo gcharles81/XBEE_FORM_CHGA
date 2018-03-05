@@ -12,6 +12,7 @@ namespace XBEE_FORM_CHGA
 {
     public partial class Form1 : Form
     {
+
         public enum LogMsgType { Incoming, Outgoing, Normal, Warning, Error };
         private Color[] LogMsgTypeColor = { Color.Blue, Color.Green, Color.Black, Color.Orange, Color.Red };
         // Temp holder for whether a key was pressed
@@ -19,12 +20,13 @@ namespace XBEE_FORM_CHGA
 
         internal List<Byte> portBuffer = new List<Byte>();
 
+
+
+        byte[] start = { 0x0000, 0x0000, 0x001E, 0x0001, 0x0001, 0x0000, 0x0000, 0x0000 };
+
         const byte cmd_StartDelimiter = 0x7E;
-        const byte cmd_Zero = 0x00;
-        const byte cmd_4Length = 0x04;
-        const byte cmd_8Length = 0x08;
-        const byte cmd_ATAPIIdentifier = 0x08;
-        const byte cmd_FrameId = 0x52;
+        const byte Address_Node1 = 0x02;
+
 
 
         public Form1()
@@ -138,10 +140,27 @@ namespace XBEE_FORM_CHGA
             return checksum.ToString("X2");
         }
 
+     
+
         private void button2_Click(object sender, EventArgs e)
         {
-            byte []start = { 0x007E, 0x0000, 0x001E, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000 } ;
-            
+            // byte []start = { 0x007E, 0x0000, 0x001E, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000 } ;
+
+            //label5.Text = String.Format("{0,10:X}", cmd_StartDelimiter);
+            label5.Text = cmd_StartDelimiter.ToString("X");
+
+            start[0] = cmd_StartDelimiter;
+            start[6] = Address_Node1;
+
+            /*
+                    const byte cmd_StartDelimiter = 0x7E;
+                    const byte cmd_Zero = 0x00;
+                    const byte cmd_4Length = 0x04;
+                    const byte cmd_8Length = 0x08;
+                    const byte cmd_ATAPIIdentifier = 0x08;
+                    const byte cmd_FrameId = 0x52;
+
+            */
             byte[] Converted_input_payload = Encoding.Default.GetBytes(TEXT_STRING_INPUT.Text);
         
 
@@ -229,7 +248,7 @@ namespace XBEE_FORM_CHGA
             finalHexValue.Insert(0, "0x");
             byte finalChecksumByte = Convert.ToByte(finalHexValue, 16);
             richTextBox1.Text = finalHexValue.ToString();
-
+            
             byte[] GHD = { 0x00};
             GHD[0] = finalChecksumByte;
             var merged2 = new byte[merged.Length + 1];
