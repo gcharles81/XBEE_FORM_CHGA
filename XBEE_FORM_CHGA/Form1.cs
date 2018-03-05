@@ -19,6 +19,11 @@ namespace XBEE_FORM_CHGA
 
         internal List<Byte> portBuffer = new List<Byte>();
 
+
+        byte[] start = { 0x0000, 0x0000, 0x0000, 0x0000, 0x000, 0x0000, 0x0000, 0x0000 };
+
+
+
         public Form1()
         {
              // Various colors for logging info
@@ -132,8 +137,11 @@ namespace XBEE_FORM_CHGA
 
         private void button2_Click(object sender, EventArgs e)
         {
-            byte []start = { 0x007E, 0x0000, 0x001E, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000 } ;
+            // byte []start = { 0x007E, 0x0000, 0x001E, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000 } ;
+
             
+
+
             byte[] Converted_input_payload = Encoding.Default.GetBytes(TEXT_STRING_INPUT.Text);
         
 
