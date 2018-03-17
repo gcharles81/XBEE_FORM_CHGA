@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.TEXT_STRING_INPUT = new System.Windows.Forms.TextBox();
-            this.OPEN_PORT = new System.Windows.Forms.Button();
-            this.lblSend = new System.Windows.Forms.Label();
-            this.txtSendData = new System.Windows.Forms.TextBox();
             this.rtfTerminal = new System.Windows.Forms.RichTextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Frame_data_visualizer = new System.Windows.Forms.Panel();
@@ -60,7 +55,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.Start_byte_label = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.Xbee_Serial_send_Button = new System.Windows.Forms.Button();
             this.FULL_XBEE_PACKET_label = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
@@ -73,9 +67,6 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -83,17 +74,14 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.btnPortState = new System.Windows.Forms.Button();
-            this.cboHandShaking = new System.Windows.Forms.ComboBox();
-            this.cboParity = new System.Windows.Forms.ComboBox();
-            this.cboStopBits = new System.Windows.Forms.ComboBox();
             this.cboDataBits = new System.Windows.Forms.ComboBox();
             this.cboBaudRate = new System.Windows.Forms.ComboBox();
             this.cboPorts = new System.Windows.Forms.ComboBox();
             this.btnGetSerialPorts = new System.Windows.Forms.Button();
+            this.Test_string_Combo = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.Frame_data_visualizer.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -105,45 +93,8 @@
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel9.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // TEXT_STRING_INPUT
-            // 
-            this.TEXT_STRING_INPUT.Location = new System.Drawing.Point(25, 603);
-            this.TEXT_STRING_INPUT.Name = "TEXT_STRING_INPUT";
-            this.TEXT_STRING_INPUT.Size = new System.Drawing.Size(707, 20);
-            this.TEXT_STRING_INPUT.TabIndex = 1;
-            this.TEXT_STRING_INPUT.Text = "A:16:255:25:110";
-            this.TEXT_STRING_INPUT.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // OPEN_PORT
-            // 
-            this.OPEN_PORT.Location = new System.Drawing.Point(1099, 621);
-            this.OPEN_PORT.Name = "OPEN_PORT";
-            this.OPEN_PORT.Size = new System.Drawing.Size(75, 62);
-            this.OPEN_PORT.TabIndex = 2;
-            this.OPEN_PORT.Text = "OPEN PORT";
-            this.OPEN_PORT.UseVisualStyleBackColor = true;
-            this.OPEN_PORT.Click += new System.EventHandler(this.OPEN_PORT_Click);
-            // 
-            // lblSend
-            // 
-            this.lblSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSend.AutoSize = true;
-            this.lblSend.Location = new System.Drawing.Point(786, 643);
-            this.lblSend.Name = "lblSend";
-            this.lblSend.Size = new System.Drawing.Size(61, 13);
-            this.lblSend.TabIndex = 3;
-            this.lblSend.Text = "Send &Data:";
-            // 
-            // txtSendData
-            // 
-            this.txtSendData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSendData.Location = new System.Drawing.Point(25, 640);
-            this.txtSendData.Name = "txtSendData";
-            this.txtSendData.Size = new System.Drawing.Size(707, 20);
-            this.txtSendData.TabIndex = 4;
             // 
             // rtfTerminal
             // 
@@ -151,8 +102,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtfTerminal.Location = new System.Drawing.Point(25, 253);
+            this.rtfTerminal.MaximumSize = new System.Drawing.Size(744, 101);
+            this.rtfTerminal.MinimumSize = new System.Drawing.Size(744, 101);
             this.rtfTerminal.Name = "rtfTerminal";
-            this.rtfTerminal.Size = new System.Drawing.Size(710, 344);
+            this.rtfTerminal.Size = new System.Drawing.Size(744, 101);
             this.rtfTerminal.TabIndex = 5;
             this.rtfTerminal.Text = "";
             // 
@@ -161,9 +114,11 @@
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(741, 253);
+            this.richTextBox1.Location = new System.Drawing.Point(25, 378);
+            this.richTextBox1.MaximumSize = new System.Drawing.Size(744, 106);
+            this.richTextBox1.MinimumSize = new System.Drawing.Size(744, 106);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(204, 344);
+            this.richTextBox1.Size = new System.Drawing.Size(744, 106);
             this.richTextBox1.TabIndex = 6;
             this.richTextBox1.Text = "";
             // 
@@ -171,6 +126,8 @@
             // 
             this.Frame_data_visualizer.BackColor = System.Drawing.Color.Silver;
             this.Frame_data_visualizer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Frame_data_visualizer.Controls.Add(this.label5);
+            this.Frame_data_visualizer.Controls.Add(this.Test_string_Combo);
             this.Frame_data_visualizer.Controls.Add(this.panel7);
             this.Frame_data_visualizer.Controls.Add(this.button4);
             this.Frame_data_visualizer.Controls.Add(this.panel8);
@@ -178,7 +135,6 @@
             this.Frame_data_visualizer.Controls.Add(this.panel3);
             this.Frame_data_visualizer.Controls.Add(this.panel6);
             this.Frame_data_visualizer.Controls.Add(this.panel4);
-            this.Frame_data_visualizer.Controls.Add(this.button1);
             this.Frame_data_visualizer.Controls.Add(this.Xbee_Serial_send_Button);
             this.Frame_data_visualizer.Controls.Add(this.FULL_XBEE_PACKET_label);
             this.Frame_data_visualizer.Controls.Add(this.label31);
@@ -455,24 +411,13 @@
             this.label4.Text = "START";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(776, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(253, 32);
-            this.button1.TabIndex = 43;
-            this.button1.Text = "LOAD STRING TEST";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
             // Xbee_Serial_send_Button
             // 
             this.Xbee_Serial_send_Button.BackColor = System.Drawing.Color.Red;
             this.Xbee_Serial_send_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Xbee_Serial_send_Button.Image = ((System.Drawing.Image)(resources.GetObject("Xbee_Serial_send_Button.Image")));
-            this.Xbee_Serial_send_Button.Location = new System.Drawing.Point(7, 125);
+            this.Xbee_Serial_send_Button.Location = new System.Drawing.Point(773, 105);
             this.Xbee_Serial_send_Button.Name = "Xbee_Serial_send_Button";
-            this.Xbee_Serial_send_Button.Size = new System.Drawing.Size(170, 42);
+            this.Xbee_Serial_send_Button.Size = new System.Drawing.Size(170, 32);
             this.Xbee_Serial_send_Button.TabIndex = 19;
             this.Xbee_Serial_send_Button.Text = "SEND XBEE PACKET";
             this.Xbee_Serial_send_Button.UseVisualStyleBackColor = false;
@@ -599,36 +544,6 @@
             this.label26.TabIndex = 44;
             this.label26.Text = "empty";
             // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label23.Location = new System.Drawing.Point(739, 643);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(32, 13);
-            this.label23.TabIndex = 44;
-            this.label23.Text = "HEX";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label24.Location = new System.Drawing.Point(739, 606);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(39, 13);
-            this.label24.TabIndex = 45;
-            this.label24.Text = "TEXT";
-            // 
-            // label25
-            // 
-            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(784, 606);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(61, 13);
-            this.label25.TabIndex = 46;
-            this.label25.Text = "Send &Data:";
-            // 
             // label27
             // 
             this.label27.AutoSize = true;
@@ -658,9 +573,9 @@
             this.panel9.Controls.Add(this.label34);
             this.panel9.Controls.Add(this.label26);
             this.panel9.Controls.Add(this.label29);
-            this.panel9.Location = new System.Drawing.Point(1079, 27);
+            this.panel9.Location = new System.Drawing.Point(775, 253);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(310, 206);
+            this.panel9.Size = new System.Drawing.Size(298, 101);
             this.panel9.TabIndex = 47;
             // 
             // label30
@@ -702,37 +617,9 @@
             this.label29.TabIndex = 47;
             this.label29.Text = "CONVERSION DATA";
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(1187, 643);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 48;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(1207, 627);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
-            this.label3.TabIndex = 49;
-            this.label3.Text = "COMM PORT";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(968, 621);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 62);
-            this.button2.TabIndex = 50;
-            this.button2.Text = "LOAD COMM SETTINGS ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
             // btnPortState
             // 
-            this.btnPortState.Location = new System.Drawing.Point(1203, 296);
+            this.btnPortState.Location = new System.Drawing.Point(3, 32);
             this.btnPortState.Name = "btnPortState";
             this.btnPortState.Size = new System.Drawing.Size(75, 23);
             this.btnPortState.TabIndex = 58;
@@ -740,57 +627,33 @@
             this.btnPortState.UseVisualStyleBackColor = true;
             this.btnPortState.Click += new System.EventHandler(this.btnPortState_Click);
             // 
-            // cboHandShaking
-            // 
-            this.cboHandShaking.FormattingEnabled = true;
-            this.cboHandShaking.Location = new System.Drawing.Point(1293, 404);
-            this.cboHandShaking.Name = "cboHandShaking";
-            this.cboHandShaking.Size = new System.Drawing.Size(121, 21);
-            this.cboHandShaking.TabIndex = 57;
-            // 
-            // cboParity
-            // 
-            this.cboParity.FormattingEnabled = true;
-            this.cboParity.Location = new System.Drawing.Point(1293, 377);
-            this.cboParity.Name = "cboParity";
-            this.cboParity.Size = new System.Drawing.Size(121, 21);
-            this.cboParity.TabIndex = 56;
-            // 
-            // cboStopBits
-            // 
-            this.cboStopBits.FormattingEnabled = true;
-            this.cboStopBits.Location = new System.Drawing.Point(1293, 350);
-            this.cboStopBits.Name = "cboStopBits";
-            this.cboStopBits.Size = new System.Drawing.Size(121, 21);
-            this.cboStopBits.TabIndex = 55;
-            // 
             // cboDataBits
             // 
             this.cboDataBits.FormattingEnabled = true;
-            this.cboDataBits.Location = new System.Drawing.Point(1293, 323);
+            this.cboDataBits.Location = new System.Drawing.Point(91, 59);
             this.cboDataBits.Name = "cboDataBits";
-            this.cboDataBits.Size = new System.Drawing.Size(121, 21);
+            this.cboDataBits.Size = new System.Drawing.Size(72, 21);
             this.cboDataBits.TabIndex = 54;
             // 
             // cboBaudRate
             // 
             this.cboBaudRate.FormattingEnabled = true;
-            this.cboBaudRate.Location = new System.Drawing.Point(1293, 296);
+            this.cboBaudRate.Location = new System.Drawing.Point(91, 32);
             this.cboBaudRate.Name = "cboBaudRate";
-            this.cboBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.cboBaudRate.Size = new System.Drawing.Size(72, 21);
             this.cboBaudRate.TabIndex = 53;
             // 
             // cboPorts
             // 
             this.cboPorts.FormattingEnabled = true;
-            this.cboPorts.Location = new System.Drawing.Point(1293, 269);
+            this.cboPorts.Location = new System.Drawing.Point(91, 5);
             this.cboPorts.Name = "cboPorts";
-            this.cboPorts.Size = new System.Drawing.Size(121, 21);
+            this.cboPorts.Size = new System.Drawing.Size(72, 21);
             this.cboPorts.TabIndex = 52;
             // 
             // btnGetSerialPorts
             // 
-            this.btnGetSerialPorts.Location = new System.Drawing.Point(1203, 267);
+            this.btnGetSerialPorts.Location = new System.Drawing.Point(3, 3);
             this.btnGetSerialPorts.Name = "btnGetSerialPorts";
             this.btnGetSerialPorts.Size = new System.Drawing.Size(75, 23);
             this.btnGetSerialPorts.TabIndex = 51;
@@ -798,33 +661,64 @@
             this.btnGetSerialPorts.UseVisualStyleBackColor = true;
             this.btnGetSerialPorts.Click += new System.EventHandler(this.btnGetSerialPorts_Click);
             // 
+            // Test_string_Combo
+            // 
+            this.Test_string_Combo.FormattingEnabled = true;
+            this.Test_string_Combo.Items.AddRange(new object[] {
+            "Sunrise",
+            "Sunset",
+            "Day 1",
+            "Day 2",
+            "Day 3",
+            "Neon 1",
+            "Neon 2",
+            "Uv 1",
+            "Uv 2",
+            "RGB1",
+            "RGB2",
+            "RGB3",
+            "RGB4",
+            "SLAVE SET",
+            "RTC SET",
+            "IP SET"});
+            this.Test_string_Combo.Location = new System.Drawing.Point(8, 113);
+            this.Test_string_Combo.Name = "Test_string_Combo";
+            this.Test_string_Combo.Size = new System.Drawing.Size(121, 21);
+            this.Test_string_Combo.TabIndex = 59;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(130, 116);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(109, 13);
+            this.label5.TabIndex = 60;
+            this.label5.Text = "Select Test String";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.btnGetSerialPorts);
+            this.panel1.Controls.Add(this.btnPortState);
+            this.panel1.Controls.Add(this.cboPorts);
+            this.panel1.Controls.Add(this.cboBaudRate);
+            this.panel1.Controls.Add(this.cboDataBits);
+            this.panel1.Location = new System.Drawing.Point(775, 378);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(298, 106);
+            this.panel1.TabIndex = 53;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1441, 695);
-            this.Controls.Add(this.btnPortState);
-            this.Controls.Add(this.cboHandShaking);
-            this.Controls.Add(this.cboParity);
-            this.Controls.Add(this.cboStopBits);
-            this.Controls.Add(this.cboDataBits);
-            this.Controls.Add(this.cboBaudRate);
-            this.Controls.Add(this.cboPorts);
-            this.Controls.Add(this.btnGetSerialPorts);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
+            this.ClientSize = new System.Drawing.Size(1105, 496);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel9);
-            this.Controls.Add(this.label25);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.label23);
             this.Controls.Add(this.Frame_data_visualizer);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.rtfTerminal);
-            this.Controls.Add(this.lblSend);
-            this.Controls.Add(this.txtSendData);
-            this.Controls.Add(this.OPEN_PORT);
-            this.Controls.Add(this.TEXT_STRING_INPUT);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Frame_data_visualizer.ResumeLayout(false);
@@ -840,16 +734,12 @@
             this.panel5.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox TEXT_STRING_INPUT;
-        private System.Windows.Forms.Button OPEN_PORT;
-        private System.Windows.Forms.Label lblSend;
-        private System.Windows.Forms.TextBox txtSendData;
         private System.Windows.Forms.RichTextBox rtfTerminal;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel Frame_data_visualizer;
@@ -860,10 +750,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
@@ -899,17 +785,14 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label Options_byte_label;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnPortState;
-        private System.Windows.Forms.ComboBox cboHandShaking;
-        private System.Windows.Forms.ComboBox cboParity;
-        private System.Windows.Forms.ComboBox cboStopBits;
         private System.Windows.Forms.ComboBox cboDataBits;
         private System.Windows.Forms.ComboBox cboBaudRate;
         private System.Windows.Forms.ComboBox cboPorts;
         private System.Windows.Forms.Button btnGetSerialPorts;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox Test_string_Combo;
+        private System.Windows.Forms.Panel panel1;
         private System.IO.Ports.SerialPort serialPort1;
     }
 }

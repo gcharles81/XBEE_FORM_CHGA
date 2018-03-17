@@ -183,7 +183,14 @@ namespace XBEE_FORM_CHGA
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            load_TXTfile();
+            if (Test_string_Combo.SelectedItem == null)
+            {
+                Test_string_Combo.SelectedIndex = 0;
+            }
+
+            String TEST_FILE_CHOOSE;
+            TEST_FILE_CHOOSE = Test_string_Combo.SelectedItem.ToString();
+            load_TXTfile(TEST_FILE_CHOOSE);
         }
 
 
@@ -226,173 +233,18 @@ namespace XBEE_FORM_CHGA
             
         }
 
-        private void load_TXTfile()
+        private void load_TXTfile(String Name)
         {
-          
-                IniParser parser = new IniParser("test_folder/timers.ini");
-
-
-            newMessage = parser.GetSetting("Sunrise", "UDP_PACKET");//// Load Sunrise hourOn1 Stored values in timers.ini file 
+            
+        IniParser parser = new IniParser("Test_UDP_XBEE_FILE.ini");
+        
+            newMessage = parser.GetSetting(Name, "UDP_PACKET");//// Load Sunrise hourOn1 Stored values in timers.ini file 
             //Parameters_test1 = Convert.ToInt32(newMessage);
             label7.Text = (newMessage);
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-          
-
-            start[0] = cmd_StartDelimiter;
-            start[6] = Address_Node1;
-
-            byte[] Converted_input_payload = Encoding.Default.GetBytes(TEXT_STRING_INPUT.Text);
-
-            //////////////////////////////////////////////////////////////////
-            var TEST_HEX_array1 = BitConverter.ToString(Converted_input_payload);
-
-
-            TEST_HEX_array1 = TEST_HEX_array1.Replace("-", " ");
-            label8.Text = TEST_HEX_array1.ToString();
-
-            /// lets combine Start of packet and payload * ShowWithoutActivation checksum 
-            /// 
-            var merged = new byte[start.Length + Converted_input_payload.Length];
-                                  
-            start.CopyTo(merged, 0);
-
-            Converted_input_payload.CopyTo(merged, start.Length);
-
-            /// done combine  Start of packet and payload * ShowWithoutActivation checksum 
-            /// 
-            //now lets calculate the lenght 
-
-            int hh = 0;//merged.Length;
-
-            /*
-            Start delimiter
-            The start delimiter is the first byte of a frame consisting of a special sequence of bits that indicate the beginning of a data frame. Its value is always 0x7E. This allows for easy detection of a new incoming frame.
-
-            Length
-            The length field specifies the total number of bytes included in the frame data field. Its two-byte value excludes the start delimiter, the length, and the checksum.
-
-            Frame data
-            This field contains the information received or to be transmitted. Frame data is structured based on the purpose of the API frame:
-            */
-
-            //Calculating Frame lenght 
-
-            for (int i = 3; i < merged.Length; i++) //We start from add3 because for the package lenght calculation excludes the start delimiter, the length, and the checksum.
-            {
-
-                hh++;
-            }
-
-           
-
-            int intValue = hh;
-            byte[] intBytes = BitConverter.GetBytes(intValue);
-
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(intBytes);
-            byte[] result = intBytes;
-
-            merged[2] = result[3];
-            
-            Lenght_MSB_byte_label.Text = result[3].ToString();
-            //lets calc checksum
-
-            int decimalSum = 0;                         // Checksum calculus concept : http://knowledge.digi.com/articles/Knowledge_Base_Article/Calculating-the-Checksum-of-an-API-Packet
-            for (int i = 3; i <  merged.Length; i++)
-            {
-                int theElementInInt = Convert.ToInt32(merged[i]);                              //We convert each element of the array to int (because it's impossible to make operation that have higher result than 0xFF ( 255 in decimal) in C#. 
-            
-
-                decimalSum += theElementInInt;                                                    //xbeeFrame is the array where are stored the bytes' frame
-            }
-
-       
-            string decimalSumHexByte = decimalSum.ToString("X");
-          
-            char[] decimalSumHexByteExploded = decimalSumHexByte.ToCharArray();
-            string last2Bytes = decimalSumHexByteExploded[decimalSumHexByteExploded.Length - 2] + "" + decimalSumHexByteExploded[decimalSumHexByteExploded.Length - 1];
-         
-            int last2BytesDeciValue = Convert.ToInt32(last2Bytes, 16);
-          
-
-            int finalIntValue = 255 - last2BytesDeciValue;
-            string finalHexValue = finalIntValue.ToString("X");
-            if (finalHexValue.Length == 1)
-            {
-
-                finalHexValue.Insert(0, "0");
-
-            }
-
-         
-            finalHexValue.Insert(0, "0x");
-            byte finalChecksumByte = Convert.ToByte(finalHexValue, 16);
-         
-
-            byte[] GHD = { 0x00};
-            GHD[0] = finalChecksumByte;
-            var merged2 = new byte[merged.Length + 1];
-
-            merged.CopyTo(merged2, 0);
-
-            GHD.CopyTo(merged2, merged.Length);
-
-
-
-
-            //////////////////////////////////////////////////////////////////
-            var HEX_array1 = BitConverter.ToString(merged2);
-            var calculated_lenght_by_charles = BitConverter.ToString(result);
-            calculated_lenght_by_charles = calculated_lenght_by_charles.Replace("-", " ");
-            
-            HEX_array1 = HEX_array1.Replace("-", " ");
-
-
-
-            /*
-          Start_byte_label 5
-Lenght_LSB_byte_label 17
-Lenght_MSB_byte_label 6
-Frame_type_byte_label 35
-Frame_ID_byte_label 37
-Receiver_ADD_LSB_byte_label 21
-Receiver_ADD_MSB_byte_label 3 
-Options_byte_label 9
-             */
-
-            // update frame data visualizer
-            label33.Text = finalHexValue.ToString();
-        label16.Text = finalHexValue.ToString();///checksum value 
-
-        Start_byte_label.Text = merged2[0].ToString("X2");
-
-        Lenght_LSB_byte_label.Text = merged2[1].ToString("X2");
-        Lenght_MSB_byte_label.Text = merged2[2].ToString("X2");
-
-        Frame_type_byte_label.Text = merged2[3].ToString("X2");
-        Frame_ID_byte_label.Text = merged2[4].ToString("X2");
-
-        Receiver_ADD_LSB_byte_label.Text = merged2[5].ToString("X2");
-        Receiver_ADD_MSB_byte_label.Text = merged2[6].ToString("X2");
-        Options_byte_label.Text = merged2[7].ToString("X2");
-        //
-
-        ///update conversion data window
-
-        FULL_XBEE_PACKET_label.Text = HEX_array1.ToString();///Converted combined Array still without Checksum 
-        label27.Text = calculated_lenght_by_charles;
-        label26.Text = hh.ToString();
-        ///
-
-
-
-
-
-    }
+      
 
     public void Generate_XBEE_PACKET_AFTER_LOAD()
     {
@@ -552,7 +404,15 @@ Options_byte_label 9
 
         private void button4_Click(object sender, EventArgs e)
         {
-            load_TXTfile();
+            if (Test_string_Combo.SelectedItem == null)
+            {
+                Test_string_Combo.SelectedIndex = 0;
+            }
+
+            String TEST_FILE_CHOOSE;
+            TEST_FILE_CHOOSE = Test_string_Combo.SelectedItem.ToString();
+            load_TXTfile(TEST_FILE_CHOOSE);
+
             Generate_XBEE_PACKET_AFTER_LOAD();
         }
 
@@ -592,49 +452,44 @@ Options_byte_label 9
             {
                 ComPortName = ArrayComPortsNames[0];
             }
+
+
+            IniParser parser = new IniParser("config/COM_Settings.ini");
+            String newMessage;
+            String newMessageB;
+            String newMessageD;
+
+            newMessage = parser.GetSetting("COMM SETTINGS", "PORT_NUMBER");
+            // toolStripStatusLabel1.Text = ("COM PORT");
+            //  toolStripStatusLabel2.Text = Convert.ToString(newMessage);
+            //   //serialPort1.PortName = Convert.ToString(newMessage);
+
+            newMessageB = parser.GetSetting("COMM SETTINGS", "BAUD_RATE");
+            //     //serialPort1.BaudRate = Convert.ToInt32(newMessageB);
+
+            ////CHGA 26/09/2016 parity load is not supported yet to be implimented in the future 
+
+            newMessageD = parser.GetSetting("COMM SETTINGS", "DATA_BITS");
+            //      //serialPort1.DataBits = Convert.ToInt16(newMessageD);
+
+            newMessage += parser.GetSetting("punctuation", "ex");
+
+
             //get first item print in text
             cboPorts.Text = ArrayComPortsNames[0];
             //Baud Rate
-            cboBaudRate.Items.Add(300);
-            cboBaudRate.Items.Add(600);
-            cboBaudRate.Items.Add(1200);
-            cboBaudRate.Items.Add(2400);
-            cboBaudRate.Items.Add(9600);
-            cboBaudRate.Items.Add(14400);
-            cboBaudRate.Items.Add(19200);
-            cboBaudRate.Items.Add(38400);
-            cboBaudRate.Items.Add(57600);
-            cboBaudRate.Items.Add(115200);
+            cboBaudRate.Items.Add(newMessageB);
+
             cboBaudRate.Items.ToString();
             //get first item print in text
             cboBaudRate.Text = cboBaudRate.Items[0].ToString();
             //Data Bits
-            cboDataBits.Items.Add(7);
-            cboDataBits.Items.Add(8);
+            cboDataBits.Items.Add(newMessageD);
+        
             //get the first item print it in the text 
             cboDataBits.Text = cboDataBits.Items[0].ToString();
 
-            //Stop Bits
-            cboStopBits.Items.Add("One");
-            cboStopBits.Items.Add("OnePointFive");
-            cboStopBits.Items.Add("Two");
-            //get the first item print in the text
-            cboStopBits.Text = cboStopBits.Items[0].ToString();
-            //Parity 
-            cboParity.Items.Add("None");
-            cboParity.Items.Add("Even");
-            cboParity.Items.Add("Mark");
-            cboParity.Items.Add("Odd");
-            cboParity.Items.Add("Space");
-            //get the first item print in the text
-            cboParity.Text = cboParity.Items[0].ToString();
-            //Handshake
-            cboHandShaking.Items.Add("None");
-            cboHandShaking.Items.Add("XOnXOff");
-            cboHandShaking.Items.Add("RequestToSend");
-            cboHandShaking.Items.Add("RequestToSendXOnXOff");
-            //get the first item print it in the text 
-            cboHandShaking.Text = cboHandShaking.Items[0].ToString();
+           
         }
 
         private void btnPortState_Click(object sender, EventArgs e)
@@ -645,9 +500,9 @@ Options_byte_label 9
                 ComPort.PortName = Convert.ToString(cboPorts.Text);
                 ComPort.BaudRate = Convert.ToInt32(cboBaudRate.Text);
                 ComPort.DataBits = Convert.ToInt16(cboDataBits.Text);
-                ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), cboStopBits.Text);
-                ComPort.Handshake = (Handshake)Enum.Parse(typeof(Handshake), cboHandShaking.Text);
-                ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), cboParity.Text);
+                ComPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "1");
+                ComPort.Handshake = (Handshake)Enum.Parse(typeof(Handshake), "None");
+                ComPort.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
                 ComPort.Open();
                 Xbee_Serial_send_Button.Visible = true;
             }
